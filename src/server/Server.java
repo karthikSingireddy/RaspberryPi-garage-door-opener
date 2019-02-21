@@ -31,7 +31,17 @@ public class Server implements Runnable{
     }
     private boolean draw = false;
 
+    public void runPyFile() {
+        try {
+            Runtime.getRuntime().exec(command);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    public final String filename = "";
+    public final String filepath = "";
+    public final String command = "sudo python " + filepath + " " + filename;
 
     public void render() {
         bs = display.getCanvas().getBufferStrategy();
@@ -115,6 +125,4 @@ public class Server implements Runnable{
             e.printStackTrace();
         }
     }
-
-
 }
