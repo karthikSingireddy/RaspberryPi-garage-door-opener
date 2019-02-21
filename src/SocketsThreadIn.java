@@ -54,6 +54,12 @@ public class SocketsThreadIn extends Thread {
 			return;
 		}
 		System.out.println("read: " + this.message);
+		check();
+	}
+	private synchronized void check() {
+		if(this.message.equals("light up")) {
+			this.runPyFile();
+		}
 	}
 
 	@Override
