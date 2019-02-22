@@ -5,27 +5,30 @@ import java.net.Socket;
 
 public class SocketsThreadIn extends Thread {
 	
-	public final int port = 32765;
+	private final int port = 2765;
 	
 	public final String filename = "lights.py";
 	public final String filepath = "/home/pi/Desktop/";
 	public final String command = "sudo python " + filepath + filename;
 	
 	public static void main(String[] args) throws Exception {
-	SocketsThreadIn sti = new SocketsThreadIn();
-	sti.run();
+		SocketsThreadIn sti = new SocketsThreadIn();
+		sti.run();
+
 
 //		ServerSocket ss = new ServerSocket(32714 - 1);
 //		Socket s = ss.accept();
 //		DataInputStream dis = new DataInputStream(s.getInputStream());
 //		System.out.println(dis.readUTF());
-
 	}
 
 	public SocketsThreadIn() {
+		this.socketsSetup();
+	}
+	private void socketsSetup() {
 		try {
 			System.out.println("in try ");
-			this.ss = new ServerSocket(32714-1);
+			this.ss = new ServerSocket(this.port);
 			System.out.println("serversocket created");
 			this.s = ss.accept();
 			System.out.println("connected");
@@ -50,7 +53,8 @@ public class SocketsThreadIn extends Thread {
 		try {
 			this.message = dis.readUTF();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+			if(e.getMessage().equals("Connection reset")) this.socketsSetup();
 			return;
 		}
 		System.out.println("read: " + this.message);
